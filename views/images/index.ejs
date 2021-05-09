@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate') %>
+<h1>index</h1>
+
+<ul>
+
+    <div class="container-fluid row">
+        <% if(images){ %>
+        <%for(let image of images){%>
+        <div class="card col-md-6" style="width: 18rem">
+            <img src="images/<%= image.filename%>" alt="" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= image.title %>
+                </h5>
+                <a class="btn btn-primary" href="images/<%=image.filename%> ">view <%=
+                                    image.title %> </a>
+                <form class="card-link d-inline" action="/images/<%=image._id%>?_method=DELETE" method="POST">
+                    <button class=" btn btn-danger">Delete</button>
+                </form>
+            </div>
+
+        </div>
+        <%}%>
+        <%}%>
+    </div>
+
+
+
+</ul>
