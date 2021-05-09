@@ -6,7 +6,10 @@ const express = require('express');
 const path = require('path');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const multer = require('multer');
+const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 
@@ -16,7 +19,7 @@ const MongoDBStore = require('connect-mongo');
 const imageRouter = require('./routes/images');
 const userRouter = require('./routes/users');
 const ExpressError = require('./utils/ExpressError');
-
+const User = require('./models/user');
 const app = express();
 
 //mongodb connections:
@@ -56,9 +59,38 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+const sessionConfig = {
+    store,
+    name: 'taotao',
+    secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        // secure:true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig));
+app.use(flash());
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+//authentication method is going to locate on our user model
+passport.use(new LocalStrategy(User.authenticate()));//we can have multiple strategies
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
+//flash middleware, set it before routers
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 app.use('/images', imageRouter);
-//app.use('/', userRouter);
+app.use('/', userRouter);
 
 app.get('/', (req, res) => {
     res.render('home');

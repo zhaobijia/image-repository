@@ -1,5 +1,6 @@
 const Image = require('../models/image');
 const mongoose = require('mongoose');
+const user = require('../models/user');
 
 const dbUrl = 'mongodb://localhost:27017/image-repo';
 const connect = mongoose.createConnection(
@@ -49,7 +50,7 @@ module.exports.uploadImage = async (req, res) => {
                 filename: f.filename,
                 url: f.path,
                 title: req.body.title,
-                description: req.body.description
+                author: req.user._id
             }
         )
     )

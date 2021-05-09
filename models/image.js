@@ -7,7 +7,10 @@ const ImageSchema = new Schema({
     filename: String,
     url: String,
     title: String,
-    description: String
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 
 });
 

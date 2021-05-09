@@ -1,5 +1,4 @@
 <% layout('layouts/boilerplate') %>
-<h1>index</h1>
 
 <ul>
 
@@ -14,14 +13,17 @@
                 </h5>
                 <a class="btn btn-primary" href="images/<%=image.filename%> ">view <%=
                                     image.title %> </a>
+
+                <% if(currentUser && image.author._id.equals(currentUser._id)){ %>
                 <form class="card-link d-inline" action="/images/<%=image._id%>?_method=DELETE" method="POST">
                     <button class=" btn btn-danger">Delete</button>
                 </form>
+                <%}%>
             </div>
 
         </div>
         <%}%>
-        <%}%>
+                <%}%>
     </div>
 
 
