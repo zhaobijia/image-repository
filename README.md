@@ -25,3 +25,9 @@
 
 ### Demo for the application
 ----
+-Upload single/bulk images
+![Alt Text](./asset/demo.gif)
+-authentication
+![Alt Text](./asset/auth.gif)
+-delete imagte
+![Alt Text](./asset/del.gif)
