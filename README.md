@@ -7,7 +7,7 @@
 ----
 1. Display the uploaded images
 2. Upload single/bulk images
-3. Delete image (Only by authorized user)
+3. Delete image (Only by authorized user, access control)
 4. Authentication and Authorization user Register/Login/Logout
 
 ### Instruction to run the application
